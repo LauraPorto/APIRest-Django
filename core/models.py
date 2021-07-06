@@ -50,7 +50,7 @@ class Tag(models.Model):
         return self.name
 
 class Ingredient(models.Model):
-    #Modelo del Tag para la receta
+    #Modelo del Ingrediente para la receta
     name = models.CharField(max_length=255)
     user = models.ForeignKey(
         settings.AUTH_USER_MODEL, 
@@ -60,5 +60,22 @@ class Ingredient(models.Model):
     def __str__(self):
         #creamos la representación en cadena del Modelo
         return self.name
+
+class Recipe(models.Model):
+    #Modelo de la receta 
+    user = models.ForeignKey(
+        settings.AUTH_USER_MODEL, 
+        on_delete=models.CASCADE
+    )
+    title = models.CharField(max_length=255)
+    time_minutes = models.IntegerField()
+    price = models.DecimalField(max_digits=5, decimal_places=2)
+    link = models.CharField(max_length=255, blank=True)
+    ingredients = models.ManyToManyField('Ingredient')
+    tags = models.ManyToManyField('Tag')
+
+    def __str__(self):
+        #creamos la representación en cadena del Modelo
+        return self.title
 
 
