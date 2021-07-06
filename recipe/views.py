@@ -35,10 +35,11 @@ class IngredientViewSet(BaseRecipeViewSet):
 
 class RecipeViewSet(viewsets.ModelViewSet):
     #manejar las recetas en la base de datos
+    serializer_class = serializers.RecipeSerializer
+    queryset = Recipe.objects.all()
     authentication_classes = (TokenAuthentication,)
     permission_classes = (IsAuthenticated,)
-    queryset = Recipe.objects.all()
-    serializer_class = serializers.RecipeSerializer
+
 
     def get_queryset(self):
         #retornar objetos para el usuario autenticado
@@ -50,4 +51,8 @@ class RecipeViewSet(viewsets.ModelViewSet):
             return serializers.RecipeSerializer
 
         return self.serializer_class
+
+    def perform_create(self, serializer):
+        #crear un nuevo ingredientes
+        serializer.save(user=self.request.user)
     
