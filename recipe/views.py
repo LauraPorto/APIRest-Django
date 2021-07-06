@@ -17,6 +17,18 @@ class BaseRecipeViewSet(viewsets.GenericViewSet, mixins.ListModelMixin, mixins.C
 
     def get_queryset(self):
         #retornar objetos para el usuario autenticado
+        assigned_only = bool(
+            int(self.request.query_params.get('assigned_only', 0))
+        )
+        queryset = self.queryset
+
+        if assigned_only:
+            queryset = queryset.filter(recipe__isnull=False)
+
+        return queryset.filter(
+            user=self.request.user
+        ).order_by('-name').distinct()     
+        
         return self.queryset.filter(user=self.request.user).order_by('-name')
 
     def perform_create(self, serializer):
