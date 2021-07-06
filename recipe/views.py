@@ -7,7 +7,7 @@ from core.models import Tag
 from recipe import serializers
 # Create your views here.
 
-class TagViewSet(viewsets.GenericViewSet, mixins.ListModelMixin):
+class TagViewSet(viewsets.GenericViewSet, mixins.ListModelMixin, mixins.CreateModelMixin):
     #manejar los tags en la base de datos
     authentication_classes = (TokenAuthentication,)
     permission_classes = (IsAuthenticated,)
@@ -17,3 +17,7 @@ class TagViewSet(viewsets.GenericViewSet, mixins.ListModelMixin):
     def get_queryset(self):
         #retornar objetos para el usuario autenticado
         return self.queryset.filter(user=self.request.user).order_by('-name')
+
+    def perform_create(self, serializer):
+        #crear un nuevo ingredientes
+        serializer.save(user=self.request.user)
