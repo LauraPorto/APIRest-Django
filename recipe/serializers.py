@@ -33,3 +33,9 @@ class RecipeSerializer(serializers.ModelSerializer):
             'id', 'title', 'ingredients', 'tags', 'time_minutes', 'price', 'link'
         )
         read_only_fields = ('id',)
+
+
+class RecipetitleSerializer(RecipeSerializer):
+    #Serializar los detalles de una recetas
+    ingredients = IngredientSerializer(many=True, read_only=True)
+    tags = TagSerializer(many=True, read_only=True)
