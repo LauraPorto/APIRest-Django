@@ -210,12 +210,12 @@ class RecipeImageUploadTests(TestCase):
         )
 
         serializer1 = RecipeSerializer(recipe1)
-        serializer1 = RecipeSerializer(recipe2)
-        serializer1 = RecipeSerializer(recipe3)
+        serializer2 = RecipeSerializer(recipe2)
+        serializer3 = RecipeSerializer(recipe3)
 
         self.assertIn(serializer1.data, res.data)
         self.assertIn(serializer2.data, res.data)
-        self.assertIn(serializer3.data, res.data)
+        self.assertNotIn(serializer3.data, res.data)
 
     def test_filter_recipes_by_ingredients(self):
         #filtrar las recetas por tags
@@ -233,9 +233,9 @@ class RecipeImageUploadTests(TestCase):
         )
 
         serializer1 = RecipeSerializer(recipe1)
-        serializer1 = RecipeSerializer(recipe2)
-        serializer1 = RecipeSerializer(recipe3)
+        serializer2 = RecipeSerializer(recipe2)
+        serializer3 = RecipeSerializer(recipe3)
 
         self.assertIn(serializer1.data, res.data)
         self.assertIn(serializer2.data, res.data)
-        self.assertIn(serializer3.data, res.data)
+        self.assertNotIn(serializer3.data, res.data)
